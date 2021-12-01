@@ -34,6 +34,15 @@ defmodule Hangman.Impl.Game do
     |> return_with_tally()
   end
 
+  def tally(game) do
+    %{
+      turns_left: game.turns_left,
+      game_state: game.game_state,
+      letters: reveal_letters(game),
+      used: game.used |> MapSet.to_list |> Enum.sort,
+    }
+  end
+
   ########## private functions
 
   defp accept_guess(game, _guess, _already_used = true) do
@@ -62,21 +71,18 @@ defmodule Hangman.Impl.Game do
     {game, tally(game)}
   end
 
-  defp tally(game) do
-    %{
-      turns_left: game.turns_left,
-      game_state: game.game_state,
-      letters: reveal_letters(game),
-      used: game.used |> MapSet.to_list |> Enum.sort,
-    }
-  end
-
   defp maybe_won(true) do
     :won
   end
 
   defp maybe_won(false) do
     :good_guess
+  end
+
+  defp reveal_letters(game = %{game_state: :lost}) do
+    Enum.map(game.letters, fn letter ->
+      letter
+    end)
   end
 
   defp reveal_letters(game) do
