@@ -20,7 +20,7 @@ defmodule Hangman.Impl.GameTest do
   end
 
   test "state does not change when game is already won or loss" do
-      for game_state <- [:won, :loss] do
+    for game_state <- [:won, :loss] do
       game = Game.new_game()
       game = Map.put(game, :game_state, game_state)
       {new_game, _tally} = Game.make_move(game, "anything")
@@ -52,14 +52,13 @@ defmodule Hangman.Impl.GameTest do
   end
 
   test "bad guess is guessed " do
-    game =  Game.new_game("divij")
+    game = Game.new_game("divij")
     {_game, tally} = Game.make_move(game, "d")
     assert tally.game_state == :good_guess
     {_game, tally} = Game.make_move(game, "g")
     assert tally.game_state == :bad_guess
     {_game, tally} = Game.make_move(game, "i")
     assert tally.game_state == :good_guess
-
   end
 
   test "sequence guessing" do
@@ -68,7 +67,7 @@ defmodule Hangman.Impl.GameTest do
       ["x", :bad_guess, 6, ["_", "e", "_", "_", "_"], ["e", "x"]],
       ["i", :bad_guess, 5, ["_", "e", "_", "_", "_"], ["e", "i", "x"]],
       ["e", :already_used, 5, ["_", "e", "_", "_", "_"], ["e", "i", "x"]],
-      ["o", :good_guess, 5, ["_", "e", "_", "_", "o"], ["e", "i", "o","x"]]
+      ["o", :good_guess, 5, ["_", "e", "_", "_", "o"], ["e", "i", "o", "x"]]
     ]
     |> test_sequence_of_moves()
   end

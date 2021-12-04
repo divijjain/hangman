@@ -15,7 +15,7 @@ defmodule Hangman.Impl.Game do
 
   @spec new_game() :: t
   def new_game do
-    new_game(Dictionary.start())
+    new_game(Dictionary.random_word())
   end
 
   @spec new_game(String.t()) :: t
@@ -29,7 +29,7 @@ defmodule Hangman.Impl.Game do
     return_with_tally(game)
   end
 
-  def make_move(game , guess) do
+  def make_move(game, guess) do
     accept_guess(game, guess, MapSet.member?(game.used, guess))
     |> return_with_tally()
   end
@@ -39,7 +39,7 @@ defmodule Hangman.Impl.Game do
       turns_left: game.turns_left,
       game_state: game.game_state,
       letters: reveal_letters(game),
-      used: game.used |> MapSet.to_list |> Enum.sort,
+      used: game.used |> MapSet.to_list() |> Enum.sort()
     }
   end
 
@@ -50,7 +50,7 @@ defmodule Hangman.Impl.Game do
   end
 
   defp accept_guess(game, guess, _) do
-    %{game | used: MapSet.put(game.used,guess)}
+    %{game | used: MapSet.put(game.used, guess)}
     |> score_guess(Enum.member?(game.letters, guess))
   end
 
@@ -63,7 +63,7 @@ defmodule Hangman.Impl.Game do
     %{game | game_state: :lost}
   end
 
-  defp score_guess(game , _good_guess = false) do
+  defp score_guess(game, _good_guess = false) do
     %{game | game_state: :bad_guess, turns_left: game.turns_left - 1}
   end
 
@@ -100,5 +100,4 @@ defmodule Hangman.Impl.Game do
   end
 
   #########
-
 end

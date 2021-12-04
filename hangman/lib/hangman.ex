@@ -3,18 +3,17 @@ defmodule Hangman do
   some sort of public api
   """
 
-  alias Hangman.Impl.Game
-  alias Hangman.Type
+  def new_game do
+    {:ok, pid} = Hangman.Runtime.Application.start_game()
+    pid
+  end
 
-  @type game :: Game.t()
+  def make_move(pid, guess) do
+    tally = GenServer.call(pid, {:make_move, guess})
+    {pid, tally}
+  end
 
-  @spec new_game() :: game
-  defdelegate new_game, to: Game
-
-  @spec make_move(game, String.t()) :: {game, Type.tally()}
-  defdelegate make_move(game, guess), to: Game
-
-  @spec tally(game) :: Type.tally()
-  defdelegate tally(game), to: Game
-
+  def tally(pid) do
+    GenServer.call(pid, :tally)
+  end
 end

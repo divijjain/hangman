@@ -1,7 +1,10 @@
 defmodule Dictionary.Impl.WordList do
   @spec word_list :: list(String.t())
   def word_list do
-    File.read!(Path.join(["assets", "words.txt"]))
+    "../dictionary/assets/words.txt"
+    |> Path.expand()
+    |> IO.inspect()
+    |> File.read!()
     |> String.trim()
     |> String.split()
   end
