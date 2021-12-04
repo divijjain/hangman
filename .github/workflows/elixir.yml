@@ -2,9 +2,9 @@ name: Elixir CI
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main , divij-gha]
   pull_request:
-    branches: [ main ]
+    branches: [ main , divij-gha]
 
 jobs:
   build:
