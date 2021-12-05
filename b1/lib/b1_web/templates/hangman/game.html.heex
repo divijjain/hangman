@@ -1,0 +1,18 @@
+This is the Game
+
+<p>
+ turns left <%= @tally.turns_left %>
+</p>
+
+<p>
+ letters guessed <%= @tally.letters |> Enum.join(" ")%>
+</p>
+
+<p>
+ letters used so far<%= @tally.used |> Enum.join(", ")%>
+</p>
+
+<%= form_for(@conn, Routes.hangman_path(@conn, :update), [as: "make_move", method: :put], fn f -> %>
+    <%= text_input(f, :guess) %>
+    <%= submit("Make next guess") %>
+<% end) %>
